@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1">
+<title>Player shared controls</title>
+</head>
+<body>
+<button id="play">Play</button><button id="pause">Pause</button>
+<script>
+function sendAction(ev) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/sharedcontrols");
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send("action=" + ev.target.id);
+}
+
+[].forEach.call(document.querySelectorAll("button"), function (el) {
+  el.addEventListener("click", sendAction)
+});
+</script>
+</body>
+</html>
