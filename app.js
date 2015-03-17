@@ -38,16 +38,16 @@ app.get('/c', function(req, res) {
 });
 
 // this is the back-end for the pseudo JavaScript API to broadcast URL
-app.post('/api/beacon', function(req, res){
+app.post('/api/beacon', function(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.body.action === "start") {
         beacon = require('uri-beacon')
         beacon.advertise(req.body.url);
-        res.sendStatus(200);
+        res.end();
     } else if (req.body.action === "stop") {
         beacon = null;
-        res.sendStatus(200);
+        res.end();
     }
-    res.sendStatus(400);
 });
 
 
