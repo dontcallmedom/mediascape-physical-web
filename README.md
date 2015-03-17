@@ -16,13 +16,15 @@ In this prototype, a Web application that plays a video advertizes itself over B
 
 ## Running the prototype
 
-The prototype runs a node-based server on port 3000. The device on which the server runs represents the "first" screen; for commodity, that server also hosts the simplistic multi-device application.
+[Video of the prototype](https://www.youtube.com/watch?v=E3-qtM5_N80)
+
+The prototype runs a node-based server on port 3000. The device on which the server runs represents the "first" screen; for commodity, that server also hosts the simplistic multi-device application `myapp`.
 
 This server must run on a linux machine that supports Bluetooth 4.0. If there are more than one bluetooth device on the said machine, and the ones that supports Bluetooth 4.0 is not `hci0`, the server should be started with the environment variable `BLENO_HCI_DEVICE_ID=n` where `n` is the number of the hci device.
 
-Because of limitations in the Bluetooth protocol, URLs that can shared over BLE cannot by longer than 21 bytes long (!); while a real deployment would use an URL shortener (such as the one provided by the Physical Web project), in the context of this prototype, we configure the server to recognize itself under the name `first` (in addition to the more usual `localhost`) by editing the `/etc/hosts` file.
+Because of limitations in the Bluetooth protocol, URLs that can shared over BLE cannot be longer than 21 bytes long (!); while a real deployment would use an URL shortener (such as the one provided by the Physical Web project), in the context of this prototype, we configure the server to recognize itself under the name `myapp` by editing the `/etc/hosts` file.
 
-If the second device runs from a separate device, that device must be made to resolve the `first` name correctly as well.
+If the second screen runs from a separate device, that device must be made to resolve the `myapp` name correctly as well.
 
 ## Implementation notes
 
