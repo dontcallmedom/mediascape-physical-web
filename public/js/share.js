@@ -3,5 +3,5 @@
 });*/
 
 setTimeout(function() {
-  navigator.mediascapeBroadcastURL("http://myapp:3000/c");
+  navigator.mediascapeStartSession("http://myapp:3000/c");
 }, 1000);
