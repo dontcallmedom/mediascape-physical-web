@@ -116,6 +116,7 @@
   PresentationSession.prototype.send = function(message) {
     if (this.state == 'connected') {
     } else {
+        throw new DOMException("Session is not in connected state", "InvalidStateError");
     }
   };
 
