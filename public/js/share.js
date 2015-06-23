@@ -3,5 +3,6 @@
 });*/
 
 setTimeout(function() {
-  navigator.mediascapeStartSession("http://myapp:3000/c");
+    var pSession =navigator.mediascapePresentation.startSession("http://myapp:3000/c");
+    console.log(pSession);
 }, 1000);
