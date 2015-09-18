@@ -86,7 +86,7 @@
         xhr.onload = function () {
           resolve();
         };
-        xhr.send('action=start&url=' + encodeURIComponent(url + '?p'));
+        xhr.send('action=start&url=' + encodeURIComponent(url));
         xhr.onerror = function(e) {
           reject(new _DOMException(
             'Unable to start Bluetooth beacon: ' + JSON.stringify(e),
@@ -120,7 +120,7 @@
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'http://localhost:3000/api/beacon');
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.send('action=stop&url=' + encodeURIComponent(url + '?p'));
+      xhr.send('action=stop&url=' + encodeURIComponent(url));
     };
   };
 
@@ -144,21 +144,6 @@
       });
     };
 
-    this.monitorIncomingControllers = function () {
-      // Not many choices to tell whether the code is running in a receiving
-      // browsing context: we'll just use the presence of a "presentation"
-      // query string parameter
-      if (window.location.search.indexOf('?p') === -1) {
-        console.log('not running in a receiving context created by Physical Web');
-        return;
-      }
-
-      console.log('running in a receiving context created by Physical Web');
-      var controller = new PhysicalWebRemoteController();
-      if (that.onincomingcontroller) {
-        that.onincomingcontroller(controller);
-      }
-    };
   };
 
   registerPresentationMechanism(new PhysicalWebPresentationMechanism());
