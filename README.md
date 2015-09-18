@@ -20,7 +20,7 @@ In this prototype, a Web application that plays a video advertizes itself over B
 
 The prototype runs a node-based server on port 3000. The device on which the server runs represents the "first" screen; for commodity, that server also hosts the simplistic multi-device application `myapp`.
 
-This server must run on a linux machine that supports Bluetooth 4.0. If there are more than one bluetooth device on the said machine, and the ones that supports Bluetooth 4.0 is not `hci0`, the server should be started with the environment variable `BLENO_HCI_DEVICE_ID=n` where `n` is the number of the hci device.
+This server was only tested on linux, and must run on a machine that supports Bluetooth 4.0. If there are more than one bluetooth device on the said machine, and the ones that supports Bluetooth 4.0 is not `hci0`, the server should be started with the environment variable `BLENO_HCI_DEVICE_ID=n` where `n` is the number of the hci device. On linux, getting the right privileges for emitting BLE messages requires running the node application as root or with `sudo`.
 
 Because of limitations in the Bluetooth protocol, URLs that can shared over BLE cannot be longer than 21 bytes long (!); while a real deployment would use an URL shortener (such as the one provided by the Physical Web project), in the context of this prototype, we configure the server to recognize itself under the name `myapp` by editing the `/etc/hosts` file.
 
@@ -32,24 +32,18 @@ There is no JavaScript API available today to broadcast a URL over BLE.
 
 The ongoing work in the [W3C Web Bluetooth Community Group](https://www.w3.org/community/web-bluetooth/) targets reading from Bluetooth devices, not emitting as one (central vs peripherical role in Bluetooth parlance).
 
-Thus, this prototype uses a back-end service that builds on [the uri-beacon node module](https://github.com/don/node-uri-beacon) which lets the (Linux-only) device on which it is running beacon URLs.
+Thus, this prototype uses a back-end service that builds on [the eddystone-beacon node module](https://github.com/don/node-eddystone-beacon) which lets the (Linux-only) device on which it is running beacon URLs.
 
-That service itself is wrapped in a pseudo JavaScript API:
+That service itself is wrapped to be usable as an additional protocol in the [Presentation API](http://w3c.github.io/presentation-api/):
 ```javascript
-var broadcast = navigator.mediascapeBroadcastURL('http://example.org/my/app');
-
-// once no longer useful
-broadcast.stop();
+var presentationRequest = new w3cPresentationRequest('http://example.org/my/app');
 ```
-
-It would probably be worth exploring how much overlap there is with the whole notion of URL sharing as [documented by the WHATWG](https://wiki.whatwg.org/wiki/Sharing), which itself is a more focused approach to the late [Web Intents](http://webintents.org/).
 
 ### Security considerations
 
-Right now, the API pretends to be asking for user permission; presumably, letting any random Web page broadcast any random URLs at any time is not a good idea.
+Right now, the API requires an engagement gesture (per the Presentation API); presumably, letting any random Web page broadcast any random URLs at any time is not a good idea.
 
-In addition or instead of user consent, it might be worth looking into:
-* requiring engagement gesture before broadcasting is possible
+In addition to user engagement, it might be worth looking into:
 * time-boxing the broadcast
 * limiting URLs that can be broadcasted to the same origin
 * requiring https for broadcast

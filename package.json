@@ -5,7 +5,7 @@
     "dependencies": {
         "express": "4.4.1",
         "body-parser": "1.12.1",
-        "uri-beacon":"*"
+        "eddystone-beacon":"*"
     },
     "scripts": {
        "start": "node app.js"

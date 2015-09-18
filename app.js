@@ -41,11 +41,11 @@ app.get('/c', function(req, res) {
 app.post('/api/beacon', function(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.body.action === "start") {
-        beacon = require('uri-beacon')
-        beacon.advertise(req.body.url);
+        beacon = require('eddystone-beacon');
+        beacon.advertiseUrl(req.body.url);
         res.end();
     } else if (req.body.action === "stop") {
-        beacon = null;
+        beacon = undefined;
         res.end();
     }
 });
